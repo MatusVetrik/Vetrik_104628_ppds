@@ -1,3 +1,3 @@
 # Vetrik_104628_ppds
 
-### Repozitár zadaní z predmetu PPDS.
+### Repository of PPDS assigments. 
