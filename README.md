@@ -53,3 +53,39 @@ with 10 loops and with critical section containing sleep for 1 second. After run
 code we have in console messages "Process XYZ runs a complicated computation!" where 
 XYZ is representing thread id. If code ran correctly all thread ids should be in 
 ascending order. 
+
+### Why Bakery algorithm ?
+
+There are 4 rules of correct solution of mutual exclusion. 
+
+1. In the critical area, no more than one process may be performed at the time.
+2. The process that is computing outside the critical area must not hinder others
+enter it.
+3. The decision on entering must come within the deadline.
+4. Processes cannot assume anything when entering the critical area about
+mutual timing (planning).
+
+I'd like to demonstrate correct solving with Bakery algorithm on these 4 rules.
+
+1. Each process is assigned order number, which describe order of processes entering
+critical section. Process waits until his order number is smallest. This is secured
+by this condition 
+```commandline
+while threads_order[j] != 0\
+  and (threads_order[j] < threads_order[i]):
+    continue
+```
+In corner case, when 2 processes have same number we have this condition 
+```commandline
+while threads_order[j] == threads_order[i] and j < i:
+    continue
+```
+which will choose process with the smallest process id.
+2. Each process after getting order number is waiting in line for time to enter 
+critical section and its not denying other processes to enter critical section.
+3. The decision on entering the critical section is made in limited time because
+at least one process have bigger value in thread_orders array. Because of this, 
+when looping through processes, process is always chosen. 
+4. Every process must wait until its turn on entering critical section. Each 
+process only knows if is allowed to enter or not without information about
+other processes plans.
