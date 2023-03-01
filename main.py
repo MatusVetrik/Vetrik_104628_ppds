@@ -17,7 +17,13 @@ from time import sleep
 from random import randint
 
 
+numOfCustomers = 5
+sizeOfWaitingRoom = 3
+
+
 class Shared(object):
+    """Initialize patterns we need and variables
+    """
 
     def __init__(self):
 
@@ -31,24 +37,45 @@ class Shared(object):
 
 
 def get_haircut(i):
-    # TODO: Simulate time and print info when customer gets haircut
+    """Simulate time and print info when customer gets haircut
+        Arguments:
+            i      -- customer id
+    """
+    print(f'Customer {i} is getting haircut.')
+    sleep(1)
 
 
 def cut_hair():
-    # TODO: Simulate time and print info when barber cuts customer's hair
+    """Simulate time and print info when barber cuts customer's hair
+    """
+    print(f'Barber is cutting hair.')
+    sleep(1)
 
 
 def balk(i):
-    # TODO: Represents situation when waiting room is full and print info
-
+    """Represents situation when waiting room is full and print info
+        Arguments:
+            i      -- customer id
+    """
+    print(f'Customer {i} is waiting for seat.')
 
 
 def growing_hair(i):
-    # TODO: Represents situation when customer wait after getting haircut. So hair is growing and customer is sleeping for some time
-
+    """Represents situation when customer wait after getting haircut. So hair is growing and customer is sleeping for
+        some time
+        Arguments:
+            i      -- customer id
+    """
+    print(f'Customer {i} is growing hair.')
+    sleep(1)
 
 
 def customer(i, shared):
+    """Function represents customers behaviour.
+        Arguments:
+            i      -- customer id
+            shared -- object of class Shared
+    """
     # TODO: Function represents customers behaviour. Customer come to waiting if room is full sleep.
     # TODO: Wake up barber and waits for invitation from barber. Then gets new haircut.
     # TODO: After it both wait to complete their work. At the end waits to hair grow again
@@ -65,6 +92,10 @@ def customer(i, shared):
 
 
 def barber(shared):
+    """Function barber represents barber.
+        Arguments:
+            shared -- object of class Shared
+    """
     # TODO: Function barber represents barber. Barber is sleeping.
     # TODO: When customer come to get new hair wakes up barber.
     # TODO: Barber cuts customer hair and both wait to complete their work.
@@ -86,7 +117,6 @@ def main():
     for t in customers + [hair_stylist]:
         t.join()
 
-# TODO: Global variables C = 5 numOfCustomers N = 3 sizeOfWaitingRoom
 
 
 if __name__ == "__main__":
