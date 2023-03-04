@@ -84,3 +84,14 @@ growing_hair(i)
 
 Some wait times are randomized so every time different operation takes different time, for example growing
 hair takes between 4 and 6 sec `sleep(randint(4, 6))`.
+
+### Testing
+
+We are testing our implementation with 5 customers and waiting room with 3 seats. We are printing every operation
+like getting haircut, cutting hair, entering room and so on.
+
+![Screenshot 2023-03-04 at 15.21.38.png](..%2F..%2F..%2F..%2Fvar%2Ffolders%2Fvm%2F4_vhmc1161lgbwt45mjrp5cm0000gn%2FT%2FTemporaryItems%2FNSIRD_screencaptureui_MSwCwI%2FScreenshot%202023-03-04%20at%2015.21.38.png)
+
+In our logs we can see that `customer 0`, `customer 1` and `customer 2` took their seats. `customer 3` can't 
+find empty seat so he is waiting. `customer 0` is getting haircut and barber is cutting his hair. Then `customer 2`
+is getting haircut and then `customer 1`. As we can see, in our waiting room is allowed overtaking. 
