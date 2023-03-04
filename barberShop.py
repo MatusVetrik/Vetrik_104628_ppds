@@ -4,9 +4,11 @@ Program represents implementation of sleeping barber problem in python.
 University: STU Slovak Technical University in Bratislava
 Faculty: FEI Faculty of Electrical Engineering and Information Technology
 Year: 2023
+
+Resource: https://www.youtube.com/watch?v=IUdx73VxUMk&ab_channel=Paraleln%C3%A9programovanieadistribuovan%C3%A9syst%C3%A9my
 """
 
-__authors__ = "Marián Šebeňa, Matúš Vetrík"
+__authors__ = "Marián Šebeňa, Matúš Jokáy, Matúš Vetrík"
 __emails__ = "mariansebena@stuba.sk, xvavro@stuba.sk, xvetrik@stuba.sk"
 __license__ = "MIT"
 
