@@ -11,7 +11,7 @@ from fei.ppds import Thread, Mutex, Semaphore, print
 from time import sleep
 
 NUM_PHILOSOPHERS: int = 5
-NUM_RUNS: int = 10  # number of repetitions of think-eat cycle of philosophers
+NUM_RUNS: int = 3  # number of repetitions of think-eat cycle of philosophers
 
 
 class Shared:
@@ -30,7 +30,7 @@ def think(i: int):
         i -- philosopher's id
     """
     print(f"Philosopher {i} is thinking!")
-    sleep(0.1)
+    sleep(0.5)
 
 
 def eat(i: int):
@@ -40,7 +40,7 @@ def eat(i: int):
         i -- philosopher's id
     """
     print(f"Philosopher {i} is eating!")
-    sleep(0.1)
+    sleep(0.5)
 
 
 def philosopher(i: int, shared: Shared):
@@ -53,15 +53,17 @@ def philosopher(i: int, shared: Shared):
     for _ in range(NUM_RUNS):
         think(i)
         # get forks
-        shared.waiter.wait()
-        shared.forks[i].lock()
-        sleep(0.5)
-        shared.forks[(i + 1) % NUM_PHILOSOPHERS].lock()
+        if i % 2 == 0:
+            shared.forks[(i + 1) % NUM_PHILOSOPHERS].lock()
+            sleep(0.5)
+            shared.forks[i].lock()
+        else:
+            shared.forks[i].lock()
+            sleep(0.5)
+            shared.forks[(i + 1) % NUM_PHILOSOPHERS].lock()
         eat(i)
         shared.forks[i].unlock()
         shared.forks[(i + 1) % NUM_PHILOSOPHERS].unlock()
-        shared.waiter.signal()
-
 
 def main():
     """Run main."""
