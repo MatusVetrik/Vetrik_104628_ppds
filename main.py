@@ -1,6 +1,6 @@
 """This module implements dinning philosophers problem.
 
- No solution is implemented.
+ Left-handed and right-handed philosophers solution is implemented.
  """
 
 __authors__ = "Tomáš Vavro, Matúš Vetrík"
@@ -20,7 +20,6 @@ class Shared:
     def __init__(self):
         """Initialize an instance of Shared."""
         self.forks = [Mutex() for _ in range(NUM_PHILOSOPHERS)]
-        self.waiter: Semaphore = Semaphore(NUM_PHILOSOPHERS - 1)
 
 
 def think(i: int):
@@ -43,6 +42,52 @@ def eat(i: int):
     sleep(0.5)
 
 
+def pick_up_left_fork_first(shared: Shared, i: int):
+    """Pick up left fork first.
+
+    Args:
+        i -- philosopher's id
+        shared -- shared data
+    """
+    shared.forks[(i + 1) % NUM_PHILOSOPHERS].lock()
+    sleep(0.5)
+    shared.forks[i].lock()
+
+
+def pick_up_right_fork_first(shared: Shared, i: int):
+    """Pick up right fork first.
+
+    Args:
+        i -- philosopher's id
+        shared -- shared data
+    """
+    shared.forks[i].lock()
+    sleep(0.5)
+    shared.forks[(i + 1) % NUM_PHILOSOPHERS].lock()
+
+
+def put_down_left_fork_first(shared: Shared, i: int):
+    """Put down right fork first.
+
+    Args:
+        i -- philosopher's id
+        shared -- shared data
+    """
+    shared.forks[(i + 1) % NUM_PHILOSOPHERS].unlock()
+    shared.forks[i].unlock()
+
+
+def put_down_right_fork_first(shared: Shared, i: int):
+    """Put down right fork first.
+
+    Args:
+        i -- philosopher's id
+        shared -- shared data
+    """
+    shared.forks[i].unlock()
+    shared.forks[(i + 1) % NUM_PHILOSOPHERS].unlock()
+
+
 def philosopher(i: int, shared: Shared):
     """Run philosopher's code.
 
@@ -52,18 +97,16 @@ def philosopher(i: int, shared: Shared):
     """
     for _ in range(NUM_RUNS):
         think(i)
-        # get forks
-        if i % 2 == 0:
-            shared.forks[(i + 1) % NUM_PHILOSOPHERS].lock()
-            sleep(0.5)
-            shared.forks[i].lock()
+        if i == 0:
+            pick_up_left_fork_first(shared, i)
         else:
-            shared.forks[i].lock()
-            sleep(0.5)
-            shared.forks[(i + 1) % NUM_PHILOSOPHERS].lock()
+            pick_up_right_fork_first(shared, i)
         eat(i)
-        shared.forks[i].unlock()
-        shared.forks[(i + 1) % NUM_PHILOSOPHERS].unlock()
+        if i == 0:
+            put_down_left_fork_first(shared, i)
+        else:
+            put_down_right_fork_first(shared, i)
+
 
 def main():
     """Run main."""
