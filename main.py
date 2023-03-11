@@ -10,8 +10,8 @@ __license__ = "MIT"
 from fei.ppds import Thread, Mutex, Semaphore, print
 from time import sleep
 
-NUM_PHILOSOPHERS: int = 5
-NUM_RUNS: int = 3  # number of repetitions of think-eat cycle of philosophers
+NUM_PHILOSOPHERS: int = 4
+NUM_RUNS: int = 10  # number of repetitions of think-eat cycle of philosophers
 
 
 class Shared:
@@ -97,12 +97,12 @@ def philosopher(i: int, shared: Shared):
     """
     for _ in range(NUM_RUNS):
         think(i)
-        if i == 0:
+        if i % 2 == 0:
             pick_up_left_fork_first(shared, i)
         else:
             pick_up_right_fork_first(shared, i)
         eat(i)
-        if i == 0:
+        if i % 2 == 0:
             put_down_left_fork_first(shared, i)
         else:
             put_down_right_fork_first(shared, i)

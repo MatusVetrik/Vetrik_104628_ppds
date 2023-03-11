@@ -31,18 +31,19 @@ pip install --user fei.ppds
 
 ### Solution 
 
-Our solution is that one of the philosophers is left-handed. In critical section
-where philosophers are picking up forks, we are checking if philosopher `id` is 0. When
-`id` is 0, philosopher is left-handed, and he is picking up left fork first.
+Our solution is that half of the philosophers is left-handed and half right-handed. In 
+critical section where philosophers are picking up forks, we are checking if philosopher
+`id` is even or odd. When `id` is even, philosopher is left-handed, and he is picking up 
+left fork first.
 
 ```commandline
         think(i)
-        if i == 0:
+        if i % 2 == 0:
             pick_up_left_fork_first(shared, i)
         else:
             pick_up_right_fork_first(shared, i)
         eat(i)
-        if i == 0:
+        if i % 2 == 0:
             put_down_left_fork_first(shared, i)
         else:
             put_down_right_fork_first(shared, i)
