@@ -31,7 +31,7 @@ pip install --user fei.ppds
 
 ### Solution 
 
-Out solution is that one of the philosophers is left-handed. In critical section
+Our solution is that one of the philosophers is left-handed. In critical section
 where philosophers are picking up forks, we are checking if philosopher `id` is 0. When
 `id` is 0, philosopher is left-handed, and he is picking up left fork first.
 
