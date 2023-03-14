@@ -113,7 +113,8 @@ that all savages can meet up once again.
 
 ![logs.png](assets%2Fimages%2Flogs.png)
 
-In result, we can see that savages are coming one by one. When are all together they can start feast. Savage takes
-portion, and we are giving information about number of portions left in the pot. When pot is empty savage wakes up
-cook. Cook is cooking and after that he fills up pot. And again and again and ... 
+We are testing functionality with 7 savages. It is accurate count for obvious demonstration that our implementation
+is correct. In result, we can see that savages are coming one by one. When are all together they can start feast. 
+Savage takes portion, and we are giving information about number of portions left in the pot. When pot is empty savage
+wakes up cook. Cook is cooking and after that he fills up pot. And again and again and ... 
 
