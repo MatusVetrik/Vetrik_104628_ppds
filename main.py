@@ -13,7 +13,11 @@ __license__ = "MIT"
 from fei.ppds import Thread, Mutex, Semaphore, print
 from time import sleep
 
-NUM_OF_SAVAGES = 7
+NUM_OF_SAVAGES = 5
+NUM_OF_PORTIONS = 3
+
+print(f"\nPočet divochov: {NUM_OF_SAVAGES}")
+print(f"Počet porcií: {NUM_OF_PORTIONS}\n")
 
 
 class Shared:
@@ -21,7 +25,7 @@ class Shared:
 
     def __init__(self):
         self.mutex = Mutex()
-        self.servings = NUM_OF_SAVAGES
+        self.servings = NUM_OF_PORTIONS
         self.countOfSavages = 0
         self.fullPot = Semaphore(0)
         self.emptyPot = Semaphore(0)
@@ -94,7 +98,7 @@ def put_servings_in_pot(shared):
     """
 
     print("Kuchár pridal guláš do hrnca.")
-    shared.servings = NUM_OF_SAVAGES
+    shared.servings = NUM_OF_PORTIONS
     sleep(1.5)
 
 
