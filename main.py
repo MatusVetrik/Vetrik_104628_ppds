@@ -75,17 +75,19 @@ def savage(shared, savage_id):
         shared.barrier1.wait()
 
         shared.mutex.lock()
-        get_serving_from_pot(shared, savage_id)
         if shared.servings == 0:
             print(f"Hrniec je prázdny. Divoch {savage_id} budí kuchára.")
             shared.emptyPot.signal()
             shared.fullPot.wait()
             put_servings_in_pot(shared)
+        get_serving_from_pot(shared, savage_id)
         shared.mutex.unlock()
 
         shared.mutex.lock()
         shared.countOfSavages -= 1
         if shared.countOfSavages == 0:
+            print("Všetci divosi sa najedli.")
+            sleep(0.5)
             shared.barrier2.signal(NUM_OF_SAVAGES)
         shared.mutex.unlock()
         shared.barrier2.wait()
