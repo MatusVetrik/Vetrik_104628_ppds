@@ -66,16 +66,16 @@ def get_serving_from_pot(shared, savage_id):
     sleep(1)
 ```
 
-When savage take last portion, he gives signal that pot is empty and wakes up cook.
+When savage take last portion, next savage gives signal that pot is empty and wakes up cook.
 
 ```commandline
 shared.mutex.lock()
-get_serving_from_pot(shared, savage_id)
 if shared.servings == 0:
     print(f"Hrniec je prázdny. Divoch {savage_id} budí kuchára.")
     shared.emptyPot.signal()
     shared.fullPot.wait()
     put_servings_in_pot(shared)
+get_serving_from_pot(shared, savage_id)
 shared.mutex.unlock()
 ```
 
@@ -97,16 +97,18 @@ def cook(shared):
 ```
 
 
-Of course, when savage leave we must decrement counter of savages. When last savage is fed and leave, he give signal
+Of course, when savage leave we must decrement counter of savages. When last savage is fed and leave, he gives signal
 that all savages can meet up once again.
 
 ```commandline
-    shared.mutex.lock()
-    shared.countOfSavages -= 1
-    if shared.countOfSavages == 0:
-        shared.barrier2.signal(NUM_OF_SAVAGES)
-    shared.mutex.unlock()
-    shared.barrier2.wait()
+shared.mutex.lock()
+shared.countOfSavages -= 1
+if shared.countOfSavages == 0:
+    print("Všetci divosi sa najedli.")
+    sleep(0.5)
+    shared.barrier2.signal(NUM_OF_SAVAGES)
+shared.mutex.unlock()
+shared.barrier2.wait()
 ```
 
 ### Result
