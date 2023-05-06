@@ -1,7 +1,6 @@
 """Implementation of script to turn image to greyscale on CPU and GPU."""
 
-__authors__ = "Mgr. Ing. Matúš Jókay, PhD., " \
-              "Tomáš Vavro"
+__authors__ = "Mgr. Ing. Matúš Jókay, PhD., Tomáš Vavro, Matúš Vetrík"
 __licence__ = "MIT"
 
 from PIL import Image
