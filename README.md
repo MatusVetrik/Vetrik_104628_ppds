@@ -52,7 +52,12 @@ to greyscale in function `transform_to_grayscale(img)`.
 
 ```commandline
 def transform_to_grayscale(img):
-    return 0.2989 * img[:, :, 0] + 0.5870 * img[:, :, 1] + 0.1140 * img[:, :, 2]
+    gray = img.copy()
+    for i in range(len(img)):
+        for j in range(len(img[0])):
+            gray_value = 0.2989 * img[i][j][0] + 0.5870 * img[i][j][1] + 0.1140 * img[i][j][2]
+            gray[i][j] = [gray_value, gray_value, gray_value]
+    return gray
 ```
 This function takes whole array of rgb values and multiply `red` by `0.2989`, `blue` by
 `0.5870` and `green` by `0.1140`. This is a classic way to turn original image to greyscale.
@@ -85,8 +90,8 @@ numpy array.
 def grayscale_kernel(img, gray_img):
     i, j = cuda.grid(2)
     if i < img.shape[0] and j < img.shape[1]:
-        gray_img[i][j] = 0.2989 * img[i, j, 0] + 0.5870 * img[i, j, 1] + 0.1140 * img[i, j, 2]
-
+        gray = 0.2989 * img[i][j][0] + 0.5870 * img[i][j][1] + 0.1140 * img[i][j][2]
+        gray_img[i][j] = [gray, gray, gray]
 
 def to_grayscale(img):
     gray_img = np.zeros((img.shape[0], img.shape[1]), dtype=np.uint8)
@@ -119,6 +124,7 @@ of cores. In `greyscale_kernel` function we are setting `cuda_grid` and performi
 ![pexels-sanketh-rao-716107.jpg](assets%2Fimages%2Fpexels-sanketh-rao-716107.jpg)
 ![pexels-sanketh-rao-716107.jpg](assets%2Foutput%2Fpexels-sanketh-rao-716107.jpg)
 
-On CPU this computation took for all images `0.77298` seconds (avg/image `0.00678s`). On GPU this computation took `0.32894` 
-seconds (avg/image `0.002885`).
-As we can see, on CPU it takes circa 2 times longer to make this type of computation. 
+On CPU this computation took for all images `101.163975` seconds (avg/image `0.9s`). On GPU this computation took `2732.1289` 
+seconds (avg/image `24s`).
+As we can see, this experiment failed due to developing on non-nvidia graphic card. With emulation enabled on Macbook GPU
+takes a lot much longer than CPU.

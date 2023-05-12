@@ -25,7 +25,8 @@ def grayscale_kernel(img, gray_img):
     """
     i, j = cuda.grid(2)
     if i < img.shape[0] and j < img.shape[1]:
-        gray_img[i][j] = 0.2989 * img[i, j, 0] + 0.5870 * img[i, j, 1] + 0.1140 * img[i, j, 2]
+        gray = 0.2989 * img[i][j][0] + 0.5870 * img[i][j][1] + 0.1140 * img[i][j][2]
+        gray_img[i][j] = [gray, gray, gray]
 
 
 def to_grayscale(img):
@@ -34,7 +35,7 @@ def to_grayscale(img):
         Arguments:
             img -- rgb array
     """
-    gray_img = np.zeros((img.shape[0], img.shape[1]), dtype=np.uint8)
+    gray_img = img.copy()
 
     tpb = (16, 16)
     bpg = (ceil(img.shape[0] / tpb[0]), ceil(img.shape[1] / tpb[1]))
@@ -56,7 +57,7 @@ def main():
         s += end - start
         print(f"Time: {end - start} sec")
 
-        plt.imsave(f"./assets/output2/{filename}", gray, cmap='gray')
+        plt.imsave(f"./assets/output2/{filename}", gray)
     print(f"Sum: {s}")
 
 
@@ -66,7 +67,12 @@ def transform_to_grayscale(img):
         Arguments:
             img -- rgb array
     """
-    return 0.2989 * img[:, :, 0] + 0.5870 * img[:, :, 1] + 0.1140 * img[:, :, 2]
+    gray = img.copy()
+    for i in range(len(img)):
+        for j in range(len(img[0])):
+            gray_value = 0.2989 * img[i][j][0] + 0.5870 * img[i][j][1] + 0.1140 * img[i][j][2]
+            gray[i][j] = [gray_value, gray_value, gray_value]
+    return gray
 
 
 def main_seq():
@@ -81,9 +87,9 @@ def main_seq():
         s += end-start
         print(f"Time: {end - start} sec")
 
-        plt.imsave(f"./assets/output/{filename}", gray, cmap='gray')
+        plt.imsave(f"./assets/output/{filename}", gray)
     print(f"Sum: {s}")
 
 
-# main()
-main_seq()
+main()
+# main_seq()
